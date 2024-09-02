@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 import pandas as pd
 
 tab1, tab2 = st.tabs(["Reporte Comunidad", "Reporte Individual"])
@@ -26,8 +25,9 @@ with tab1:
             st.write(dataframe)
 
     # Get the current credentials
-    session = get_active_session()
-
+    cnx = st.connection("snowflake")
+    session = cnx.session()
+    
     # Execute SQL query and get results
     result = session.sql("SELECT NOMBRE, APELLIDO, CORREO, STATUS FROM LABORATORIO.MONICA_SOBERON.COMUNIDAD;")
 
